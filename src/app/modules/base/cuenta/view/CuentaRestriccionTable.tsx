@@ -11,11 +11,11 @@ import {
 import { useQuery } from '@tanstack/react-query'
 import React, { FunctionComponent } from 'react'
 
-import AlertError from '../../../base/components/Alert/AlertError'
-import AlertLoading from '../../../base/components/Alert/AlertLoading'
-import useAuth from '../../../base/hooks/useAuth'
-import { notSuccess } from '../../../utils/notification'
-import { swalAsyncConfirmDialog, swalException } from '../../../utils/swal'
+import AlertError from '../../../../base/components/Alert/AlertError'
+import AlertLoading from '../../../../base/components/Alert/AlertLoading'
+import useAuth from '../../../../base/hooks/useAuth'
+import { notSuccess } from '../../../../utils/notification'
+import { swalAsyncConfirmDialog, swalException } from '../../../../utils/swal'
 import { apiUsuarioRestriccion } from '../api/usuarioRestriccion.api'
 import { apiUsuarioActualizarRestriccion } from '../api/usuarioRestriccionActualizar.api'
 import { UsuarioSucursalRestriccionProps } from '../interfaces/restriccion.interface'
@@ -30,7 +30,7 @@ type Props = OwnProps
  * @param props
  * @constructor
  */
-const CuentaRestriccionTable: FunctionComponent<Props> = (props) => {
+const CuentaRestriccionTable: FunctionComponent<Props> = () => {
   const { user } = useAuth()
   const {
     data: restriccion,

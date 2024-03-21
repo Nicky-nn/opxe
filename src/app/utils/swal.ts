@@ -8,6 +8,7 @@ export const swalConfirm = {
   allowOutsideClick: false,
   confirmButtonText: 'Confirmar',
   showLoaderOnConfirm: true,
+  cancelButtonText: 'Cancelar',
 }
 
 export const swalErrorMsg = (
@@ -99,7 +100,7 @@ export const swalAsyncConfirmDialog = async ({
     showCancelButton: true,
     confirmButtonText: 'Confirmar',
     cancelButtonText: 'Cancelar',
-    cancelButtonColor: '#d33',
+    cancelButtonColor: '#D33000',
     backdrop: true,
     html: text,
     didOpen: () => {

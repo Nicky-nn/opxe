@@ -58,6 +58,7 @@ const RestriccionTopBarContainer = styled(Paper)(({ theme }) => ({
 const LayoutRestriccion: FC<any> = () => {
   const theme = useTheme()
   const [open, setOpen] = useState(false)
+  // eslint-disable-next-line no-unused-vars
   const { logout, user }: any = useAuth()
 
   const handleChangeSucursal = () => {

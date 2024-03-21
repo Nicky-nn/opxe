@@ -11,6 +11,7 @@ interface OwnProps {
   onClose: (value?: ClienteProps) => void
 }
 
+
 type Props = OwnProps
 
 const ClienteExplorarDialog: FunctionComponent<Props> = (props) => {

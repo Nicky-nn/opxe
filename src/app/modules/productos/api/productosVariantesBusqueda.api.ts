@@ -3,7 +3,7 @@
 import { gql, GraphQLClient } from 'graphql-request'
 
 import { AccessToken } from '../../../base/models/paramsModel'
-import { ProductoVarianteProps } from '../interfaces/producto.interface'
+import { ProductoProps } from '../interfaces/producto.interface'
 
 const reqQuery = gql`
   query BUSQUEDA($query: String!) {
@@ -51,7 +51,7 @@ const reqQuery = gql`
 
 export const apiProductosVariantesBusqueda = async (
   query: string,
-): Promise<ProductoVarianteProps[]> => {
+): Promise<ProductoProps[]> => {
   const client = new GraphQLClient(import.meta.env.ISI_API_URL)
   const token = localStorage.getItem(AccessToken)
   // Set a single header

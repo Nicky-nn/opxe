@@ -42,6 +42,7 @@ export const PROVEEDOR_INITIAL_VALUES: ProveedorInputProp = {
   contacto: '',
   correo: '',
   telefono: '',
+  action: 'REGISTER',
 }
 export interface ProveedorApiInputProps {
   codigo: string

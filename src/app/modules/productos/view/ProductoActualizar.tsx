@@ -1,25 +1,24 @@
 import { yupResolver } from '@hookform/resolvers/yup/dist/yup'
 import { Description, Save } from '@mui/icons-material'
 import { Button, CssBaseline, Grid, Paper, Stack } from '@mui/material'
-import React, { FunctionComponent, useEffect, useState } from 'react'
+import { FunctionComponent, useEffect, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 import SimpleContainer from '../../../base/components/Container/SimpleContainer'
 import Breadcrumb from '../../../base/components/Template/Breadcrumb/Breadcrumb'
-import { genRandomString, isEmptyValue } from '../../../utils/helper'
-import { notDanger, notError, notSuccess } from '../../../utils/notification'
+import { actionForm } from '../../../interfaces'
+import { isEmptyValue } from '../../../utils/helper'
+import { notDanger, notSuccess } from '../../../utils/notification'
 import {
   swalAsyncConfirmDialog,
   swalClose,
   swalException,
   swalLoading,
 } from '../../../utils/swal'
-import { fetchSinActividades } from '../../sin/api/sinActividadEconomica.api'
-import { fetchSinActividadesPorDocumentoSector } from '../../sin/api/sinActividadesPorDocumentoSector'
-import { SinActividadesProps } from '../../sin/interfaces/sin.interface'
-import { apiTipoProductoListado } from '../../tipoProducto/api/tipoProductoListado.api'
+import { apiSinActividadesPorDocumentoSector } from '../../sin/api/sinActividadesPorDocumentoSector'
+import { SinActividadesDocumentoSectorProps } from '../../sin/interfaces/sin.interface'
 import { apiProductoModificar } from '../api/productoModificar.api'
 import { apiProductoPorId } from '../api/productoPorId.api'
 import {
@@ -27,18 +26,18 @@ import {
   ProductoInputProps,
 } from '../interfaces/producto.interface'
 import { productosRouteMap } from '../ProductosRoutesMap'
-import { productoComposeService } from '../services/ProductoComposeService'
+import {
+  productoComposeService,
+  productoInputComposeService,
+} from '../services/ProductoComposeService'
 import {
   productoRegistroValidator,
   productoRegistroValidatorResponde,
 } from '../validator/productoRegistroValidator'
-import ProductoInventario from './ProductoInventario/ProductoInventario'
 import ProductoClasificador from './registro/ProductoClasificador'
 import Homologacion from './registro/ProductoHomologacion'
-import ProductoOpciones from './registro/ProductoOpciones'
 import ProductoPrecio from './registro/ProductoPrecio'
 import ProductoProveedor from './registro/ProductoProveedor'
-import ProductoVariantes from './registro/ProductoVariantes'
 
 interface OwnProps {}
 
@@ -47,7 +46,6 @@ type Props = OwnProps
 const ProductoActualizar: FunctionComponent<Props> = (props) => {
   const { id }: { id?: string } = useParams()
   const navigate = useNavigate()
-  const [producto, setProducto] = useState<ProductoInputProps | undefined>(undefined)
 
   const form = useForm<ProductoInputProps>({
     defaultValues: {
@@ -58,9 +56,12 @@ const ProductoActualizar: FunctionComponent<Props> = (props) => {
   })
 
   const onSubmit: SubmitHandler<ProductoInputProps> = async (values) => {
+    console.log('values', values)
     const val = await productoRegistroValidatorResponde(values)
+    console.log('val', values)
     const codigoProducto = values.codigoProducto
     const apiInput = productoComposeService(values)
+    console.log('apiInput', apiInput)
     await swalAsyncConfirmDialog({
       preConfirm: async () => {
         const resp: any = await apiProductoModificar(codigoProducto, apiInput).catch(
@@ -93,49 +94,20 @@ const ProductoActualizar: FunctionComponent<Props> = (props) => {
     try {
       swalLoading()
       const response = await apiProductoPorId(codigoProducto)
-      setProducto(response[0])
-      const act = await fetchSinActividades()
-      // console.log('act', act)
+      swalClose()
       if (response) {
-        // form.reset(response)
-        const codigoActividad = response.sinProductoServicio
-        const matchinActividad = act.find(
-          (actividad) => actividad.codigoCaeb === codigoActividad.codigoActividad,
+        const actividades: SinActividadesDocumentoSectorProps[] =
+          await apiSinActividadesPorDocumentoSector()
+        const actividad = actividades.find(
+          (item) => item.codigoActividad === response.sinProductoServicio.codigoActividad,
         )
-        form.setValue('codigoActividad', response.sinProductoServicio)
-        form.setValue(
-          'codigoActividad.tipoActividad',
-          matchinActividad?.tipoActividad || '',
-        )
-
-        form.setValue(
-          'codigoActividad.actividadEconomica',
-          matchinActividad?.descripcion || '',
-        )
-
-        form.setValue('codigoProductoSin', response.sinProductoServicio)
-        form.setValue('codigoUnidadMedida', response.unidadMedida)
-        form.setValue('codigoProveedor', response.proveedor)
-        form.setValue('nombre', response.nombre)
-        form.setValue('codigoProducto', response.codigoProducto)
-        form.setValue('descripcion', response.descripcion)
-        form.setValue('precio', response.precio)
-        form.setValue('codigoNandina', response.codigoNandina || '')
-
-        // const tip = await apiTipoProductoListado()
-        // const tipoProducto = response.tipoProducto
-        // const matchinTipoProducto = tip.find((tp) => tp._id === tipoProducto.codigoParent)
-        // console.log('matchinTipoProducto', matchinTipoProducto)
-        // // form.setValue('tipoProducto._id', tipoProducto._id)
-        // // form.setValue('tipoProducto.codigoParent', tipoProducto.codigoParent)
-        // // form.setValue('tipoProducto.descripcion', tipoProducto.descripcion)
-        // // form.setValue('tipoProducto.parientes', matchinTipoProducto?.parientes || '')
-        // // form.setValue('tipoProducto.descripcion', matchinTipoProducto?.descripcion || '')
+        // @ts-ignore
+        const prodInput = productoInputComposeService(response, actividad!)
+        form.reset({ ...prodInput, action: actionForm.UPDATE })
       } else {
-        notDanger('No se encontró el producto')
+        notDanger('No se ha podido encontrar datos del servicio')
         navigate(-1)
       }
-      swalClose()
     } catch (e: any) {
       swalException(e)
     }
@@ -206,17 +178,17 @@ const ProductoActualizar: FunctionComponent<Props> = (props) => {
               <Homologacion form={form} />
             </Grid>
             <Grid item lg={12} md={12} xs={12}>
-              {/* <ProductoPrecio form={form} /> */}
+              <ProductoPrecio form={form} />
             </Grid>
           </Grid>
         </Grid>
         <Grid item lg={4} md={4} xs={12}>
           <Grid container spacing={1}>
             <Grid item lg={12} md={12} xs={12}>
-              {/* <ProductoClasificador form={form} /> */}
+              <ProductoClasificador form={form} />
             </Grid>
             <Grid item lg={12} md={12} xs={12}>
-              {/* <ProductoProveedor form={form} /> */}
+              <ProductoProveedor form={form} />
             </Grid>
           </Grid>
         </Grid>

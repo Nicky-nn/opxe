@@ -84,7 +84,11 @@ const ProductoPrecio: FunctionComponent<Props> = (props) => {
                     placeholder={'Seleccione la unidad de medida'}
                     menuPosition={'fixed'}
                     value={field.value}
-                    onChange={field.onChange}
+                    // onChange={field.onChange}
+                    onChange={(unidadMedida: any) => {
+                      field.onChange(unidadMedida)
+                      setValue('codigoUnidadMedida', unidadMedida)
+                    }}
                     onBlur={field.onBlur}
                     options={data.sinUnidadMedida}
                     getOptionValue={(item) => item.codigoClasificador.toString()}
@@ -113,8 +117,9 @@ const ProductoPrecio: FunctionComponent<Props> = (props) => {
                 <OutlinedInput
                   {...field}
                   label={'Precio'}
+                  id="precio"
                   size={'small'}
-                  value={field.value}
+                  value={field.value !== null ? field.value.toString() : ''}
                   onFocus={handleSelect}
                   onChange={field.onChange}
                   onBlur={field.onBlur}

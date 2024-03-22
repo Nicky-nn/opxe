@@ -3,8 +3,7 @@
 import { gql, GraphQLClient } from 'graphql-request'
 
 import { AccessToken } from '../../../base/models/paramsModel'
-import { MyGraphQlError } from '../../../base/services/GraphqlError'
-import { PlantillaDetalleExtra } from '../../../interfaces'
+import { PlantillaDetalleExtra } from '../../../interfaces/plantilla'
 
 const query = gql`
   query PLANTILLA_DETALLE_EXTRA {
@@ -29,6 +28,7 @@ export const apiPlantillaDetalleExtra = async (): Promise<PlantillaDetalleExtra[
     const data: any = await client.request(query)
     return data.plantillasDetalleExtra
   } catch (e: any) {
-    throw new MyGraphQlError(e)
+    return []
+    // throw new MyGraphQlError(e)
   }
 }

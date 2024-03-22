@@ -65,6 +65,7 @@ const ProductoHomologacion: FunctionComponent<Props> = (props) => {
   // En caso no existiera valores en actividad economica
   useEffect(() => {
     if (!actLoading && !actIsError && !getValues('actividadEconomica')) {
+      console.log('actividades', actividades![0])
       setValue('actividadEconomica', actividades![0])
     }
   }, [actLoading])
@@ -75,8 +76,6 @@ const ProductoHomologacion: FunctionComponent<Props> = (props) => {
   if (prodServError) {
     return <AlertError mensaje={prodServError.message} />
   }
-
-  // eslint-disable-next-line no-unused-vars
   const [codigoProducto, setCodigoProducto] = useState('')
   const generarCodigoProducto = (nombreProducto: string): string => {
     const palabras = nombreProducto
@@ -119,8 +118,7 @@ const ProductoHomologacion: FunctionComponent<Props> = (props) => {
     // Verificar si el campo de codigoProducto ya tiene un valor
     const codigoProductoExistente = getValues('codigoProducto')
     const codigoProductoActualizado =
-      //@ts-ignore
-      codigoProductoExistente || generarCodigoProducto(nombreProducto)
+      codigoProductoExistente ?? generarCodigoProducto(nombreProducto ?? '')
 
     setCodigoProducto(codigoProductoActualizado)
     setValue('codigoProducto', codigoProductoActualizado)
@@ -151,7 +149,7 @@ const ProductoHomologacion: FunctionComponent<Props> = (props) => {
                         field.onChange(actividadEconomica)
                         setValue('sinProductoServicio', null)
                       }}
-                      onBlur={async () => {
+                      onBlur={async (val) => {
                         field.onBlur()
                       }}
                       isSearchable={false}
@@ -218,7 +216,6 @@ const ProductoHomologacion: FunctionComponent<Props> = (props) => {
                   onChange={field.onChange}
                   onBlur={() => {
                     const nombreProducto = field.value
-                    //@ts-ignore
                     const nuevoCodigoProducto = generarCodigoProducto(nombreProducto)
                     setCodigoProducto(nuevoCodigoProducto)
                     field.onBlur()

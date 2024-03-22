@@ -80,13 +80,6 @@ const tableColumns: MRT_ColumnDef<ProductoProps>[] = [
     accessorFn: (row) => genReplaceEmpty(row.unidadMedida?.descripcion, ''),
   },
   {
-    accessorKey: 'precioComparacion',
-    header: 'Precio Comparación',
-    id: 'precioComparacion',
-    size: 135,
-    accessorFn: (row) => genReplaceEmpty(row.precioComparacion, ''),
-  },
-  {
     accessorFn: (row) => <Chip size={'small'} label={row.state} color={'success'} />,
     id: 'state',
     header: 'Estado',

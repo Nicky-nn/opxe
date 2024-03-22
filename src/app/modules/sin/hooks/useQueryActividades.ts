@@ -1,7 +1,7 @@
 import { QueryKey } from '@tanstack/query-core'
 import { useQuery } from '@tanstack/react-query'
 
-import { fetchSinActividadesPorDocumentoSector } from '../api/sinActividadesPorDocumentoSector'
+import { fetchSinActividades } from '../api/sinActividadEconomica.api'
 import { SinActividadesProps } from '../interfaces/sin.interface'
 
 /**
@@ -15,16 +15,15 @@ const useQueryActividades = (queryKey: QueryKey = []) => {
     isError: actIsError,
     error: actError,
   } = useQuery<SinActividadesProps[], Error>({
-    queryKey: ['actividadesPorDocumentoSector', ...queryKey],
+    queryKey: ['actividades', ...queryKey],
     queryFn: async () => {
-      const resp = await fetchSinActividadesPorDocumentoSector()
+      const resp = await fetchSinActividades()
       if (resp.length > 0) {
         return resp
       }
       return []
     },
   })
-
   return { actividades, actLoading, actIsError, actError }
 }
 

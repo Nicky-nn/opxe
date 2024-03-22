@@ -1,7 +1,6 @@
 // noinspection GraphQLUnresolvedReference
 
 import { gql, GraphQLClient } from 'graphql-request'
-import { typeOf } from 'react-is'
 
 import { AccessToken } from '../../../base/models/paramsModel'
 import { FacturaProps } from '../interfaces/factura'

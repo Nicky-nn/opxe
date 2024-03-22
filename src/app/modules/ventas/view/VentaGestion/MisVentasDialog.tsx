@@ -21,6 +21,7 @@ import { clearAllLineBreak } from '../../../../utils/helper'
 import { notDanger } from '../../../../utils/notification'
 import { fetchFacturaListado } from '../../api/factura.listado.api'
 
+//@ts-ignore
 registerLocale('es', es)
 
 interface OwnProps {

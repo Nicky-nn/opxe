@@ -105,7 +105,7 @@ const ProductosVariantes: FunctionComponent<Props> = (props) => {
       }
       const { pageInfo, docs } = await apiProductosVariantes(fetchPagination)
       setRowCount(pageInfo.totalDocs)
-      return docs
+      return docs as unknown as ProductoProps[] // Cast the type to 'ProductoProps[]'
     },
   })
 

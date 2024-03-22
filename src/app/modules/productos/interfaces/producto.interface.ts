@@ -33,6 +33,8 @@ export interface ProductoProps {
   usumod: string
   updatedAt: string
   precio: number
+  tipoProducto: TipoProductoProps
+  proveedor: ProveedorProps
 }
 
 export interface ProductoInputProps {
@@ -49,6 +51,7 @@ export interface ProductoInputProps {
   tipoCambioCompra: number | null
   tipoCambioCompraOficial: number | null
   unidadMedida: SinUnidadMedidaProps | null
+  codigoUnidadMedida: SinUnidadMedidaProps | null
   action: string
   codigoNandina: string
   precio: number | null
@@ -72,6 +75,7 @@ export const PRODUCTO_INITIAL_VALUES: ProductoInputProps = {
   tipoCambioVentaOficial: null,
   tipoCambioCompra: null,
   tipoCambioCompraOficial: null,
+  codigoUnidadMedida: null,
   unidadMedida: null,
   action: actionForm.REGISTER,
   codigoNandina: '',

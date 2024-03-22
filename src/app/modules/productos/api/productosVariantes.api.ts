@@ -4,7 +4,7 @@ import { gql, GraphQLClient } from 'graphql-request'
 
 import { AccessToken } from '../../../base/models/paramsModel'
 import { PageInfoProps, PageProps } from '../../../interfaces'
-import { ProductoVarianteInputProps } from '../interfaces/producto.interface'
+import { ProductoInputProps } from '../interfaces/producto.interface'
 
 const reqQuery = gql`
   query EXP_PRODUCTO_LISTADO(
@@ -72,7 +72,7 @@ const reqQuery = gql`
  * Respuesta de productos
  */
 export interface ApiProductoVarianteResponse {
-  docs: Array<ProductoVarianteInputProps>
+  docs: Array<ProductoInputProps>
   pageInfo: PageInfoProps
 }
 

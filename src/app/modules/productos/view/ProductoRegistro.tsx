@@ -39,10 +39,11 @@ const ProductoRegistro: FunctionComponent<Props> = () => {
   })
 
   const onSubmit: SubmitHandler<ProductoInputProps> = async (values) => {
+    console.log('values', values)
     const val = await productoRegistroValidatorResponde(values)
     const codigoProducto = values.codigoProducto
     const apiInput = productoComposeService(values)
-    // console.log('apiInput', apiInput)
+    console.log('apiInput', apiInput)
     await swalAsyncConfirmDialog({
       preConfirm: async () => {
         const resp: any = await apiProductoRegistro(codigoProducto, apiInput).catch(

@@ -5,6 +5,7 @@ import Select, { SingleValue } from 'react-select'
 
 import AlertLoading from '../../../../base/components/Alert/AlertLoading'
 import { MyInputLabel } from '../../../../base/components/MyInputs/MyInputLabel'
+import { reactSelectStyle } from '../../../../base/components/MySelect/ReactSelect'
 import SimpleCard from '../../../../base/components/Template/Cards/SimpleCard'
 import useQueryTiposProducto from '../../../tipoProducto/hooks/useQueryTiposProducto'
 import { TipoProductoProps } from '../../../tipoProducto/interfaces/tipoProducto.interface'
@@ -40,6 +41,7 @@ const ProductoClasificador: FunctionComponent<Props> = (props) => {
                   <MyInputLabel shrink>Tipo Sercicio</MyInputLabel>
                   <Select<TipoProductoProps>
                     {...field}
+                    styles={reactSelectStyle(Boolean())}
                     menuPosition={'fixed'}
                     name="tipoProducto"
                     placeholder={'Seleccione...'}
@@ -47,6 +49,7 @@ const ProductoClasificador: FunctionComponent<Props> = (props) => {
                     onChange={(tipoProducto: SingleValue<TipoProductoProps>) => {
                       field.onChange(tipoProducto)
                     }}
+                    // onChange={field.onChange}
                     options={tiposProducto}
                     isClearable={true}
                     getOptionValue={(ps) => ps._id}

@@ -5,7 +5,7 @@ import { gql, GraphQLClient } from 'graphql-request'
 import { AccessToken } from '../../../base/models/paramsModel'
 import { ClasificadorProps } from '../../../interfaces'
 import { SinActividadesProps } from '../../sin/interfaces/sin.interface'
-import { ProductoVarianteProps } from '../interfaces/producto.interface'
+import { ProductoProps } from '../interfaces/producto.interface'
 
 export interface FacturaProps {
   sinTipoMetodoPago: ClasificadorProps[]
@@ -52,9 +52,7 @@ const productoQuery = (query: string) => gql`
     }
 `
 
-export const fetchProductoBusqueda = async (
-  query: string,
-): Promise<ProductoVarianteProps[]> => {
+export const fetchProductoBusqueda = async (query: string): Promise<ProductoProps[]> => {
   const client = new GraphQLClient(import.meta.env.ISI_API_URL)
   const token = localStorage.getItem(AccessToken)
   // Set a single header

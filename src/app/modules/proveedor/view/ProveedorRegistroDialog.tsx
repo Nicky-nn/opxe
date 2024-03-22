@@ -43,6 +43,7 @@ const ProveedorRegistro: FunctionComponent<Props> = (props) => {
       await swalAsyncConfirmDialog({
         preConfirm: async () => {
           try {
+            // @ts-ignore
             const resp = await apiProveedorRegistro(apiInput).catch((e) => ({
               error: e,
             }))

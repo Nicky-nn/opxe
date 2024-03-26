@@ -112,13 +112,15 @@ const ProductoHomologacion: FunctionComponent<Props> = (props) => {
       return ''
     }
   }
+
   useEffect(() => {
     const nombreProducto = getValues('nombre')
 
     // Verificar si el campo de codigoProducto ya tiene un valor
     const codigoProductoExistente = getValues('codigoProducto')
     const codigoProductoActualizado =
-      codigoProductoExistente ?? generarCodigoProducto(nombreProducto ?? '')
+      //@ts-ignore
+      codigoProductoExistente || generarCodigoProducto(nombreProducto)
 
     setCodigoProducto(codigoProductoActualizado)
     setValue('codigoProducto', codigoProductoActualizado)
@@ -216,6 +218,7 @@ const ProductoHomologacion: FunctionComponent<Props> = (props) => {
                   onChange={field.onChange}
                   onBlur={() => {
                     const nombreProducto = field.value
+                    //@ts-ignore
                     const nuevoCodigoProducto = generarCodigoProducto(nombreProducto)
                     setCodigoProducto(nuevoCodigoProducto)
                     field.onBlur()

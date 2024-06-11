@@ -21,7 +21,7 @@ const query = gql`
     $fechaFinal: DateDMY!
     $entidad: [EntidadParamsInput]
   ) {
-    eduReporteVentasPorUsuario(
+    expoReporteVentasUsuario(
       fechaInicial: $fechaInicial
       fechaFinal: $fechaFinal
       entidad: $entidad
@@ -54,8 +54,9 @@ export const apiReporteVentasPorUsuario = async (
     client.setHeader('authorization', `Bearer ${token}`)
 
     const data: any = await client.request(query, { fechaInicial, fechaFinal, entidad })
-    return data.eduReporteVentasPorUsuario || []
+    return data.expoReporteVentasUsuario || []
   } catch (e: any) {
+    console.log('Error en apiReporteVentasPorUsuario', e)
     throw new MyGraphQlError(e)
   }
 }

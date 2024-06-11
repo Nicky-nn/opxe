@@ -47,6 +47,7 @@ export const apiUsuarioRestriccion = async (): Promise<UsuarioRestriccionProps> 
     const data: any = await client.request(gqlQuery)
     return data.usuarioRestriccion
   } catch (e: any) {
+    console.log('Error en apiUsuarioRestriccion', e)
     throw new MyGraphQlError(e)
   }
 }
